@@ -8,6 +8,7 @@ for letter in "python":
     print("当前的字母是", letter)
 print("goodbye")
 
+
 # pass 便是占据一个位置，因为如果定义一个空函数程序会报错
 def nullFunction(n):
     pass
