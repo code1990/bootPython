@@ -1,4 +1,13 @@
 # Python 第一章 基础语法
+
+# 编码
+# 默认情况下，Python 3 源码文件以 UTF-8 编码，所有字符串都是 unicode 字符串
+
+# python保留字
+import keyword
+# 打印所有的保留字
+print(dir(keyword))
+
 # 第一个 Python 程序
 # 打印输出并换行 hello world
 print("Hello World")
