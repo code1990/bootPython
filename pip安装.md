@@ -8,3 +8,12 @@ pip install mysqlclient
 
 pip install selenium
 
+
+
+----------------
+
+python -m tkinter
+
+import tkinter
+from tkinter import *
+
