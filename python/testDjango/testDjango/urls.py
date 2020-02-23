@@ -16,11 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
-from . import view
+from . import view, testdb, search,search2
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     # url(r'^$', view.hello),
     # Django path() 可以接收四个参数，分别是两个必选参数：route、view 和两个可选参数：kwargs、name。
     path('hello/', view.hello),
+    url(r'^testdb$', testdb.testdb),
+    url(r'^search-form$', search.search_form),
+    url(r'^search$', search.search),
+    url(r'^search-post$', search2.search_post),
 ]

@@ -2,9 +2,15 @@
 
 https://www.cnblogs.com/liqu/p/9308966.html
 
+django-admin.py startproject testDjango
+
+==C:/Users/Administrator/AppData/Roaming/Python/Python38/site-packages/django/bin/django-admin.py startproject testdj==
+
+==C:/Users/Administrator/AppData/Roaming/Python/Python38/site-packages/django/bin/django-admin.py startapp TestModel==
+
 cd D:\github\bootPython\python>cd testDjango
 
-D:\github\bootPython\python\testDjango>python manage.py runserver 0.0.0.0:8000
+D:\github\bootPython\python\testDjango>python manage.py runserver 
 
 -----------
 
@@ -185,3 +191,32 @@ Django 注释使用 {# #}。
 ```
 {% include "nav.html" %}
 ```
+
+------------
+
+## Request 对象
+
+每个 view 函数的第一个参数是一个 HttpRequest 对象，就像下面这个 hello() 函数:
+
+```
+from django.http import HttpResponse
+
+def hello(request):
+    return HttpResponse("Hello world")
+```
+
+### QueryDict对象
+
+在HttpRequest对象中, GET和POST属性是django.http.QueryDict类的实例。
+
+QueryDict类似字典的自定义类，用来处理单键对应多值的情况。
+
+QueryDict实现所有标准的词典方法。还包括一些特有的方法：
+
+---------
+
+# Django Admin 管理工具
+
+Django 提供了基于 web 的管理工具。
+
+Django 自动管理工具是 django.contrib 的一部分。你可以在项目的 settings.py 中的 INSTALLED_APPS 看到它：
