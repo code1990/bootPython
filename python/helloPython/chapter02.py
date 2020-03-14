@@ -1,7 +1,7 @@
-# 第2章　变量和简单数据类型　　15
-# 2.1　运行hello_world.py时发生的情况　　15
+# 第2章　变量和简单数据类型　　
+# 2.1　运行hello_world.py时发生的情况　　
 print("Hello Python world!")
-# 2.2　变量　　16
+# 2.2　变量　　
 message = "Hello Python world!"
 print(message)
 message = "Hello Python Crash Course world!"
@@ -24,7 +24,7 @@ print(message)
 #
 #   慎用小写字母l和大写字母O，因为它们可能被人错看成数字1和0。
 
-# 2.3　字符串　　18
+# 2.3　字符串　　
 "This is a string."
 'This is also a string.'
 name = "ada lovelace"
@@ -63,7 +63,7 @@ print(message)
 # 在Python 2中，整数除法的结果只包含整数部分，小数部分被删除
 print(3/2)
 print(3.0/2)
-# 2.5　注释　　27
+# 2.5　注释　　
 # 注释用井号（# ）标识
 # 编写注释的主要目的是阐述代码要做什么，以及是如何做的。
-# 2.6　Python之禅　　28
+# 2.6　Python之禅　　
