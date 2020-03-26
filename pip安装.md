@@ -31,3 +31,6 @@ python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy
 python -m pip install -U pip setuptools
 python -m pip install matplotlib
 ```
+
+ 添加官方镜像
+
