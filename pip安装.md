@@ -25,14 +25,20 @@ from tkinter import *
 python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
 ```
 
-
+python -m pip install --upgrade pip
 
 ```
 python -m pip install -U pip setuptools
 python -m pip install matplotlib
 ```
 
- 添加官方镜像
+---------
+
+CV2在的软件包不叫cv2而是叫opencv-python
+
+命令换成 pip install opencv-python 就可以了
+
+添加官方镜像
 
 阿里云 [http://mirrors.aliyun.com/pypi/simple](http://mirrors.aliyun.com/pypi/simple/)
 
