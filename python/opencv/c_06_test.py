@@ -1,27 +1,60 @@
 import unittest
+import numpy as np
+import cv2
 
-class c_06_test(unittest.TestCase):
-	def test_61(self):
-		#6.1画线
+
+# cv2.line(),cv2.circle(),cv2.rectangle(),cv2.ellipse(),cv2.putText()
+# 需要设置下面这些参数：
+# • img：你想要绘制图形的那幅图像。
+# • color：形状的颜色。以RGB 为例，需要传入一个元组，例如:(255,0,0)代表蓝色。
+# 对于灰度图只需要传入灰度值。
+# • thickness：线条的粗细。如果给一个闭合图形设置为-1，那么这个图形
+# 就会被填充。默认值是1.
+# • linetype：线条的类型，8 连接，抗锯齿等。
+# 默认情况是8 连接。cv2.LINE_AA为抗锯齿，这样看起来会非常平滑。
+class c_06_test():
+	if __name__ == '__main__':
+		# 6.1画线
+		# 要画一条线，你只需要告诉函数这条线的起点和终点
+		# 画一条		# 从左上方到右下角的蓝色线
+		# 4＃创建黑色图像
+		img = np.zeros((512, 512, 3), np.uint8)
+		# 7＃画一条厚度为5像素的蓝色斜线
+		cv2.line(img, (0, 0), (511, 511), (255, 0, 0), 5)
+		# 6.2画矩形
+		# 要画一个矩形，你需要告诉函数的左上角顶点和右下角顶点的坐标。
+		# 在图像的右上角话一个绿色的矩形。
+		cv2.rectangle(img, (384, 0), (510, 128), (0, 255, 0), 3)
+		# 6.3画圆
+		# 要画圆的话，只需要指定圆形的中心点坐标和半径大小。
+		# 我们在上面的矩形中画一个圆。
+		cv2.circle(img, (447, 63), 63, (0, 0, 255), -1)
+		# 6.4画椭圆
+		# 	画椭圆比较复杂，我们要多输入几个参数。
+		# 一个参数是中心点的位置坐标。
+		# 下一个参数是长轴和短轴的长度
+		cv2.ellipse(img, (256, 256), (100, 50), 0, 0, 180, 255, -1)
+		# 6.5画多边形
+		# 画多边形，需要指点每个顶点的坐标。用这些点的坐标构建一个大小等于
+		# 行数X1X2 的数组，行数就是点的数目。这个数组的数据类型必须为int32。
+		# 这里画一个黄色的具有四个顶点的多边形。
+		pts = np.array([[10, 5], [20, 30], [70, 20], [50, 10]], np.int32)
+		pts = pts.reshape((-1, 1, 2))
+		# 这里reshape 的第一个参数为-1, 表明这一维的长度是根据后面的维度的计算出来的。
+		# ：cv2.polylines() 可以被用来画很多条线
 		print("")
-
-	def test_62(self):
-		#6.2画矩形
-		print("")
-
-	def test_63(self):
-		#6.3画圆
-		print("")
-
-	def test_64(self):
-		#6.4画椭圆
-		print("")
-
-	def test_65(self):
-		#6.5画多边形
-		print("")
-
-	def test_66(self):
-		#6.6在图片上添加文字
-		print("")
-
+		# 6.6在图片上添加文字
+		# 要在图片上绘制文字，你需要设置下列参数：
+		# • 你要绘制的文字
+		# • 你要绘制的位置
+		# • 字体类型（通过查看cv2.putText() 的文档找到支持的字体）
+		# • 字体的大小
+		# • 文字的一般属性如颜色，粗细，线条的类型等。为了更好看一点推荐使用
+		# linetype=cv2.LINE_AA
+		font = cv2.FONT_HERSHEY_SIMPLEX
+		cv2.putText(img,"OpenCV",(10,500),font,4,(255,255,255),2)
+		winname ="example"
+		cv2.namedWindow(winname)
+		cv2.imshow(winname,img)
+		cv2.waitKey(0)
+		cv2.destroyAllWindows(winname)
