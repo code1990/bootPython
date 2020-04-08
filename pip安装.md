@@ -34,6 +34,8 @@ python -m pip install matplotlib
 
 ---------
 
+1892dadd5daffa572bd00070adef6fd6917c3c52
+
 CV2在的软件包不叫cv2而是叫opencv-python
 
 命令换成 pip install opencv-python 就可以了
