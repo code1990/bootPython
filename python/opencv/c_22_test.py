@@ -99,19 +99,143 @@ class c_22_test(unittest.TestCase):
 		plt.legend(('cdf', 'histogram'), loc='upper left')
 		plt.show()
 
+		# 22.2.1OpenCV中的直方图均衡化
+		# 这里使用了Numpy 的掩模数组
+		# 构建Numpy 掩模数组，cdf 为原数组，当数组元素为0 时，掩盖（计算时被忽略）。
+		cdf_m = np.ma.masked_equal(cdf, 0)
+		cdf_m = (cdf_m - cdf_m.min()) * 255 / (cdf_m.max() - cdf_m.min())
+		# 对被掩盖的元素赋值，这里赋值为0
+		cdf = np.ma.filled(cdf_m, 0).astype('uint8')
+		# 直方图均衡化经常用来使所有的图片具有相同的亮度条件的参考	# 工具。
+
 	# 22.2.1OpenCV中的直方图均衡化
+	def test_22111(self):
+		# 	cv2.equalizeHist()。这个函数的输
+		# 入图片仅仅是一副灰度图像，输出结果是直方图均衡化之后的图像。
+		img = cv2.imread('python.png', 0)
+		equ = cv2.equalizeHist(img)
+		res = np.hstack((img, equ))
+		# stacking images side-by-side
+		cv2.imwrite('res.png', res)
+
 	# 22.2.2CLAHE有限对比适应性直方图均衡化
+	def test_22221(self):
+		# 需要使用自适应的直方图均衡化
+		img = cv2.imread('python.png', 0)
+		# create a CLAHE object (Arguments are optional).
+		# 不知道为什么我没好到createCLAHE 这个模块
+		clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+		cl1 = clahe.apply(img)
+		cv2.imwrite('clahe_2.jpg', cl1)
+		print("")
 	def test_2232(self):
 		# 22.32D直方图
 		print("")
 
 	# 22.3.1介绍
-	# 22.3.2OpenCV中的2D直方图
-	# 22.3.3Numpy中2D直方图
-	# 22.3.4绘制2D直方图
+	# 在2D 直方图中我们就要考虑两个图像特征
+	# 需要考虑每个的颜色（Hue）和饱和度（Saturation） 具体案例
+	# 具体案例 color_histogram.py
+
+	def test_22321(self):
+		# 22.3.2OpenCV中的2D直方图
+		# 使用函数cv2.calcHist() 来计算直方图既简单又方便。
+		# 计算颜色直方图/一维直方图，要从BGR 转换到HSV
+		# 计算2D 直方图，函数的参数要做如下修改：
+		# • channels=[0，1] 因为我们需要同时处理H 和S 两个通道。
+		# • bins=[180，256]H 通道为180，S 通道为256。
+		# • range=[0，180，0，256]H 的取值范围在0 到180，S 的取值范围在0 到256
+		img = cv2.imread('python.png')
+		hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+		hist = cv2.calcHist([hsv], [0, 1], None, [180, 256], [0, 180, 0, 256])
+
+	def test_22333(self):
+		# 22.3.3Numpy中2D直方图
+		# 绘制2D 直方图的函数：np.histogram2d()。
+		# 绘制1D 直方图时我们使用的是np.histogram()
+		# 第一个参数是H 通道，
+		# 第二个参数是S 通道，
+		# 第三个参数是bins 的数目，
+		# 第四个参数是数值范围。
+		img = cv2.imread('home.jpg')
+		hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+		# hist, xbins, ybins = np.histogram2d(h.ravel(), s.ravel(), [180, 256], [[0, 180], [0, 256]])
+
+	def test_2234(self):
+		# 22.3.4绘制2D直方图
+		# 方法1：使用cv2.imshow()
+		# 方法2：使用Matplotlib()matplotlib.pyplot.imshow()
+		# 方法3：OpenCV 􅉽格 color_histogram.py
+		img = cv2.imread('python.png')
+		hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+		hist = cv2.calcHist([hsv], [0, 1], None, [180, 256], [0, 180, 0, 256])
+		plt.imshow(hist, interpolation='nearest')
+		plt.show()
+
+	# 22.4.1Numpy中的算法
+	def test_11(self):
+		# roi is the object or region of object we need to find
+		roi = cv2.imread('rose_red.png')
+		hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+		# target is the image we search in
+		target = cv2.imread('rose.png')
+		hsvt = cv2.cvtColor(target, cv2.COLOR_BGR2HSV)
+		# Find the histograms using calcHist. Can be done with np.histogram2d also
+		M = cv2.calcHist([hsv], [0, 1], None, [180, 256], [0, 180, 0, 256])
+		I = cv2.calcHist([hsvt], [0, 1], None, [180, 256], [0, 180, 0, 256])
+		# 以用来做图像分割，或者在图像中找寻我们感兴趣的部分
+		# 首先，我们要创建两幅颜色直方图，目标图像的直方图（'M'），（待搜索）输入图像的直方图（'I'）。
+		# 计算比值：R = M / I 。反向投影R，也就是根据R
+		# 这个”调色板“创建一
+		# 副新的图像，其中的每一个像素代表这个点就是目标的概率。
+		R = M/I
+		h, s, v = cv2.split(hsvt)
+		B = R[h.ravel(), s.ravel()]
+		B = np.minimum(B, 1)
+		B = B.reshape(hsvt.shape[:2])
+		# 现在使用一个圆盘算子做卷积，B = D  B，其中D
+		# 为卷积核。
+		disc = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+		B = cv2.filter2D(B, -1, disc)
+		B = np.uint8(B)
+		cv2.normalize(B, B, 0, 255, cv2.NORM_MINMAX)
+		# 如果我们要找的是一个区域，我们就可以使用一个阈值对图像进行二值化，这样就可以得到一个很好的结果了
+		ret, thresh = cv2.threshold(B, 50, 255, 0)
+
+	# 22.4.2OpenCV中的反向投影
 	def test_224(self):
 		# 22.4直方图反向投影
+		# OpenCV 提供的函数cv2.calcBackProject() 可以用来做直方图反向
+		# 投影。它的参数与函数cv2.calcHist 的参数基本相同。其中的一个参数是我
+		# 们要查找目标的直方图。同样再使用目标的直方图做反向投影之前我们应该先
+		# 对其做归一化处理。返回的结果是一个概率图像，我们再使用一个圆盘形卷积
+		# 核对其做卷操作，最后使用阈值进行二值化
+		roi = cv2.imread('tar.jpg')
+		hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+		target = cv2.imread('roi.jpg')
+		hsvt = cv2.cvtColor(target, cv2.COLOR_BGR2HSV)
+		# calculating object histogram
+		roihist = cv2.calcHist([hsv], [0, 1], None, [180, 256], [0, 180, 0, 256])
+		# normalize histogram and apply backprojection
+		# 归一化：原始图像，结果图像，映射到结果图像中的最小值，最大值，归一化类型
+		# cv2.NORM_MINMAX 对数组的所有值进行转化，使它们线性映射到最小值和最大值之间
+		# 归一化之后的直方图便于显示，归一化之后就成了0 到255 之间的数了。
+		cv2.normalize(roihist, roihist, 0, 255, cv2.NORM_MINMAX)
+		dst = cv2.calcBackProject([hsvt], [0, 1], roihist, [0, 180, 0, 256], 1)
+		# Now convolute with circular disc
+		# 此处卷积可以把分散的点连在一起
+		disc = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+		dst = cv2.filter2D(dst, -1, disc)
+		# threshold and binary AND
+		ret, thresh = cv2.threshold(dst, 50, 255, 0)
+		# 别忘了是三通道图像，因此这里使用merge 变成3 通道
+		thresh = cv2.merge((thresh, thresh, thresh))
+		# 按位操作
+		res = cv2.bitwise_and(target, thresh)
+		res = np.hstack((target, thresh, res))
+		cv2.imwrite('res.jpg', res)
+		# 显示图像
+		cv2.imshow('1', res)
+		cv2.waitKey(0)
 		print("")
 
-# 22.4.1Numpy中的算法
-# 22.4.2OpenCV中的反向投影
