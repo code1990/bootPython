@@ -1,13 +1,23 @@
 # Chrome headless 模式
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
+import time
 chrome_options = Options()
 chrome_options.add_argument('--headless')
 driver = webdriver.Chrome(executable_path='C:\driver\chromedriver.exe', options=chrome_options)
-driver.get("https://www.baidu.com")
-
-print(driver.title)
+url_list = []
+page_size = 0
+kw = "netty"
+for i in range(page_size):
+    url_info = "https://www.baidu.com/s?ie=utf-8&wd=" + kw + "%E9%9D%A2%E8%AF%95%E9%A2%98&pn=" + str(i * 10)
+    print(url_info)
+    url_list.append(url_info + str(i * 10))
+for url in url_list:
+    driver.get(url)
+    # time.sleep(3)
+    # print(driver.find_elements_by_tag_name("h3").count())
+#
+# print(driver.title)
 
 driver.quit()
 
