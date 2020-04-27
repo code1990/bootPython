@@ -64,7 +64,7 @@ for file_name in file_list:
             if result == "xls" or result == "xlsx" or result == "txt":
                 continue
             tmp_name += result + " "
-        ctime = time.strftime("%Y%m%d")
+        ctime = time.strftime("%Y%m%d%H%M%S")
         final_name = tmp_name + ctime
         with open(excel_path + "\\" + final_name + ".txt", "w", encoding='utf-8') as f:
             for response in less_list:
@@ -73,3 +73,4 @@ for file_name in file_list:
         print("6>>>>>>>>>>>>>>>过滤文件保存ok")
         print("文件总记录数:", len(all_list))
         print("文件过滤后记录数:", len(less_list))
+        print("")
