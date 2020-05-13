@@ -1,3 +1,4 @@
+### 使用cmd安装pip install xxx 安装速度> pycharm project intercepter
 ```
 # import MySQLdb
 
