@@ -52,3 +52,9 @@ CV2在的软件包不叫cv2而是叫opencv-python
   清华大学 [https://pypi.tuna.tsinghua.edu.cn/simple](https://pypi.tuna.tsinghua.edu.cn/simple/)
 
   中国科学技术大学 [http://pypi.mirrors.ustc.edu.cn/simple](http://pypi.mirrors.ustc.edu.cn/simple/)
+
+--------------
+
+**python -m pip install -U pip**
+
+pip 升级报错
