@@ -19,7 +19,7 @@ for file_name in all_file_list:
         for row in range(1, sheet.nrows):
             url_info = sheet.cell_value(row, 1).strip()
             # print(url_info)
-            if url_info=='':
+            if url_info == '':
                 continue
             all_list.append(url_info)
 # print("2>>>>>>>>>>>>>>>遍历所有的文件,读取所有的文件内容>>>>>>end")
@@ -70,12 +70,17 @@ with open(root_path + "\\A.txt", "w", encoding='utf-8') as f:
     for response in less_list:
         f.write(response + '\n')
     f.close()
-count =0
+count = 0
+# print(type(sorted(url_dict_2, reverse=True)))
+# 按照value排序
+url_dict_list = sorted(url_dict_2.items(),key = lambda x:x[1],reverse = True)
+# print(url_dict_2)
 with open(root_path + "\\B.txt", "w", encoding='utf-8') as f:
-    for key in url_dict_2.keys():
-        if url_dict_2[key] >= 2:
-            f.write(key + "\t" + str(url_dict_2[key]) + '\n')
-            count=count+1
+    for url_tuple in url_dict_list:
+        # print(type(url_tuple))
+        if url_tuple[1] >= 2:
+            f.write(url_tuple[0] + "\t" + str(url_tuple[1]) + '\n')
+            count = count + 1
     f.close()
 print("文件总数:" + str(len(all_file_list)))
 print("网址总数:" + str(len(all_list)))
